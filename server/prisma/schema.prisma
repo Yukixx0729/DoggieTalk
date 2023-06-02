@@ -1,0 +1,56 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Users {
+  id        String  @id @default(cuid())
+  name      String
+  email     String
+  Password  String
+  dogs      Dog[]
+  messages  Chat[]
+  groups    Group[] @relation("GroupMembers")
+  events    Event[] @relation("EventParticipants")
+}
+
+model Dog {
+  id       String  @id @default(cuid())
+  name     String
+  breed    String
+  userId   String
+  user     Users   @relation(fields: [userId], references: [id])
+}
+
+model Chat {
+  id         String    @id @default(cuid())
+  senderId   String
+  groupId    String
+  message    String
+  timestamp  DateTime  @default(now())
+  sender     Users     @relation(fields: [senderId], references: [id])
+  group      Group     @relation(fields: [groupId], references: [id])
+}
+
+model Group {
+  id         String   @id @default(cuid())
+  name       String
+  users      Users[]  @relation("GroupMembers")
+  messages   Chat[]
+}
+
+model Event {
+  id            String   @id @default(cuid())
+  title         String
+  description   String
+  location      String
+  date          DateTime
+  participants  Users[]  @relation("EventParticipants")
+}
