@@ -8,7 +8,7 @@ const SignupForm = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const fields = Object.fromEntries(new FormData(e.currentTarget));
-    console.log(fields);
+
     if (fields.password !== fields.password2) {
       setErr("Passwords do not match!");
       return;

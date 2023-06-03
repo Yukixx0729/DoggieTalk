@@ -4,28 +4,38 @@ import { SignupAndLogin } from "./pages/SignupAndLogin";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import { useAuth, AuthContextType } from "./contexts/AuthProvider";
-import HeadingAndNavBar from "./components/HeadingAndNavBar";
+import "./App.css";
 import PrivateRoutes from "./components/PrivateRoutes";
-import { Button } from "@chakra-ui/react";
+import { Button, Container, Heading, Box } from "@chakra-ui/react";
 import Settings from "./components/Setting";
 import Events from "./components/Events";
-import Chat from "./components/Chat";
+import Chat from "./components/ChatRoom";
+import HeadingAndNavBar from "./components/HeadingAndNavBar";
 
 function App() {
   const { user, logout } = useAuth() as AuthContextType;
   return (
-    <>
+    <Container maxW="8xl">
       {user && (
-        <div>
-          <h1>Doggie Talk🐶</h1>
-          <h2>
-            Hello, {user.name}!{" "}
-            <Button colorScheme="blue" size="sm" onClick={logout}>
-              Logout
-            </Button>
-          </h2>
+        <Container maxW="8xl">
+          <Box
+            textAlign="left"
+            bg="green.400"
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+            padding="20px"
+          >
+            <Heading size="2xl">Doggie Talk🐶</Heading>
+            <Heading size="l" ml="4">
+              Hello, {user.name}!{" "}
+              <Button colorScheme="blue" size="xs" onClick={logout}>
+                Logout
+              </Button>
+            </Heading>
+          </Box>
           <HeadingAndNavBar />
-        </div>
+        </Container>
       )}
 
       <Routes>
@@ -33,12 +43,12 @@ function App() {
         <Route element={<PrivateRoutes redirectTo="/login" />}>
           <Route path="/" element={<Home />} />
           <Route path="/chat" element={<Chat />} />
-          / <Route path="/events" element={<Events />} />
+          <Route path="/events" element={<Events />} />
           <Route path="/setting" element={<Settings />} />
           <Route path="/*" element={<NotFound />} />
         </Route>
       </Routes>
-    </>
+    </Container>
   );
 }
 

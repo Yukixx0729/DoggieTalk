@@ -16,11 +16,16 @@ router.post(
     }
     try {
       const { id: senderId } = req.session.user;
+      const sender = await prisma.users.findUnique({ where: { id: senderId } });
+      if (!sender) {
+        return res.status(404).json({ message: "Sender not found" });
+      }
       const newMsg = await prisma.chat.create({
         data: {
           message,
           senderId,
           groupId,
+          senderName: sender.name,
         },
       });
       res.status(201);

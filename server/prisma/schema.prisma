@@ -37,6 +37,7 @@ model Chat {
   timestamp  DateTime  @default(now())
   sender     Users     @relation(fields: [senderId], references: [id])
   group      Group     @relation(fields: [groupId], references: [id])
+  senderName String
 }
 
 model Group {

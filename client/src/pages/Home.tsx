@@ -1,12 +1,9 @@
-import ChatRoomList from "../components/ChatRoomList";
 import WelcomeContent from "../components/WelcomeContent";
+
+// import { useState } from "react";
 const HomePage = () => {
-  return (
-    <>
-      <ChatRoomList />
-      <WelcomeContent />
-    </>
-  );
+  // const [section, setSection] = useState("welcomeContent");
+  return <WelcomeContent />;
 };
 
 export default HomePage;

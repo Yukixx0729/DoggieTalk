@@ -62,6 +62,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }, []);
 
   const register = async (fields: RegisterFields) => {
+    setIsLoadingUser(true);
     const res = await fetch("/api/users", {
       method: "POST",
       headers: {
@@ -69,14 +70,17 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       },
       body: JSON.stringify(fields),
     });
+
     const data = await res.json();
-    if (res.status !== 200) {
+
+    if (res.status !== 201) {
       throw {
         status: res.status,
         message: data.message,
       };
     }
     setUser(data);
+    setIsLoadingUser(false);
     navigate("/");
   };
 

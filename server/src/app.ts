@@ -1,5 +1,6 @@
 import express, { Request, Response, NextFunction, Application } from "express";
 import { Server } from "http";
+import eventRouter from "./controls/event";
 import userRouter from "./controls/user";
 import sessionRouter from "./controls/session";
 import dogRouter from "./controls/dog";
@@ -34,6 +35,7 @@ app.use("/api/session", sessionRouter);
 app.use("/api/dogs", dogRouter);
 app.use("/api/groups", groupRouter);
 app.use("/api/chat", chatRouter);
+app.use("/api/events", eventRouter);
 
 const server: Server = app.listen(PORT, () => {
   console.log(`Server is running on ${PORT}`);

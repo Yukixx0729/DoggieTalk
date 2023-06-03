@@ -39,7 +39,7 @@ router.post("/", async (req: Request, res: Response, next: NextFunction) => {
 router.get("/", (req: Request, res: Response, next: NextFunction) => {
   if (req.session && req.session.user) {
     const currentUser = req.session.user;
-    res.json({ currentUser });
+    res.json(currentUser);
   } else {
     res.status(401).json({ message: "User not logged in" });
   }
