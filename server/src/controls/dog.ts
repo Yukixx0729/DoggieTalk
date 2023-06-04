@@ -6,7 +6,7 @@ const router = express.Router();
 
 //add a dog
 router.post("/", loginRequired, async (req: Request, res: Response) => {
-  const { name, breed } = req.body;
+  const { name, breed, age } = req.body;
   if (!req.session.user) {
     return res.status(401).json({ message: "You must be logged in" });
   }
@@ -16,6 +16,7 @@ router.post("/", loginRequired, async (req: Request, res: Response) => {
       data: {
         name,
         breed,
+        age,
         userId: id,
       },
     });

@@ -14,6 +14,7 @@ CREATE TABLE "Dog" (
     "name" TEXT NOT NULL,
     "breed" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
+    "age" TEXT NOT NULL,
 
     CONSTRAINT "Dog_pkey" PRIMARY KEY ("id")
 );
@@ -24,7 +25,7 @@ CREATE TABLE "Chat" (
     "senderId" TEXT NOT NULL,
     "groupId" TEXT NOT NULL,
     "message" TEXT NOT NULL,
-    "timestamp" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "timestamp" TEXT NOT NULL,
     "senderName" TEXT NOT NULL,
 
     CONSTRAINT "Chat_pkey" PRIMARY KEY ("id")

@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+
 import "./App.css";
 import { SignupAndLogin } from "./pages/SignupAndLogin";
 import Home from "./pages/Home";
@@ -14,6 +15,16 @@ import HeadingAndNavBar from "./components/HeadingAndNavBar";
 
 function App() {
   const { user, logout } = useAuth() as AuthContextType;
+  // const [response, setResponse] = useState("");
+
+  // useEffect(() => {
+  //   const socket = socketIOClient(ENDPOINT);
+  //   socket.on("FromAPI", (data: any) => {
+  //     setResponse(data);
+  //     console.log(response);
+  //   });
+  // }, []);
+
   return (
     <Container maxW="8xl">
       {user && (

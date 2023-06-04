@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import express, { NextFunction, Request, Response } from "express";
 
 import { hashPassword, passwordCheck } from "./user-password";
+import { CustomRequest } from "../app";
 
 export function exclude(user: { [x: string]: any }, ...keys: any[]) {
   for (let key of keys) {
@@ -14,7 +15,7 @@ const prisma = new PrismaClient();
 const router = express.Router();
 
 // Get user by id
-router.get("/:id", async (req: Request, res: Response) => {
+router.get("/:id", async (req: CustomRequest, res: Response) => {
   const userId = req.params.id;
   try {
     const user = await prisma.users.findUnique({
@@ -82,7 +83,7 @@ router.post("/", async (req: Request, res: Response) => {
         email,
         Password: hashedPassword,
         groups: {
-          connect: [{ id: "clifikqe60002jf16fubt8ume" }],
+          connect: [{ id: "clihhgwce0004eiir9t6kskf2" }],
         },
       },
     });

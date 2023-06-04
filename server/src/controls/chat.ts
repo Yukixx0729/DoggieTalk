@@ -1,16 +1,23 @@
 import { PrismaClient } from "@prisma/client";
 import express, { NextFunction, Request, Response } from "express";
 import { loginRequired } from "../middleware/loginCheck";
+import { CustomRequest } from "../app";
+import dayjs from "dayjs";
+import timezone from "dayjs/plugin/timezone";
+import utc from "dayjs/plugin/utc";
 
 const prisma = new PrismaClient();
 const router = express.Router();
-
+dayjs.extend(timezone);
+dayjs.extend(utc);
 //send a msg
 router.post(
   "/",
   loginRequired,
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (req: CustomRequest, res: Response, next: NextFunction) => {
     const { message, groupId } = req.body;
+    const socket = req.io;
+
     if (!req.session.user) {
       return res.status(401).json({ message: "You must be logged in" });
     }
@@ -20,16 +27,26 @@ router.post(
       if (!sender) {
         return res.status(404).json({ message: "Sender not found" });
       }
+      const currentTime = dayjs().utc();
+      const sydneyDate = currentTime
+        .tz("Australia/Sydney")
+        .format("YYYY-MM-DD HH:mm:ss");
       const newMsg = await prisma.chat.create({
         data: {
           message,
           senderId,
           groupId,
           senderName: sender.name,
+          timestamp: sydneyDate,
         },
       });
-      res.status(201);
-      res.json(newMsg);
+
+      // io?.emit("new message", newMsg);
+      // io?.to(groupId).emit("new_message", newMsg);
+      socket?.emit("new_message", newMsg);
+      console.log("emitted: ", newMsg);
+
+      res.status(201).json(newMsg);
     } catch (error) {
       res.status(500).json({ message: "Failed,try again later.", error });
     }

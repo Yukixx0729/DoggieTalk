@@ -26,6 +26,7 @@ model Dog {
   name     String
   breed    String
   userId   String
+  age      String
   user     Users   @relation(fields: [userId], references: [id])
 }
 
@@ -34,7 +35,7 @@ model Chat {
   senderId   String
   groupId    String
   message    String
-  timestamp  DateTime  @default(now())
+  timestamp  String
   sender     Users     @relation(fields: [senderId], references: [id])
   group      Group     @relation(fields: [groupId], references: [id])
   senderName String
