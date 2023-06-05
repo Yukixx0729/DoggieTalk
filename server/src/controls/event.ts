@@ -15,6 +15,15 @@ router.get("/", loginRequired, async (req: Request, res: Response) => {
           gte: currentDate,
         },
       },
+      include: {
+        participants: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
+        },
+      },
     });
     res.json(events);
   } catch (error) {
@@ -58,6 +67,9 @@ router.get("/:id", loginRequired, async (req: Request, res: Response) => {
       where: {
         id: eventId,
       },
+      include: {
+        participants: true,
+      },
     });
     res.json(event);
   } catch (error) {
@@ -66,6 +78,38 @@ router.get("/:id", loginRequired, async (req: Request, res: Response) => {
 });
 
 //update participants of an event by id
+router.put("/:id", loginRequired, async (req: Request, res: Response) => {
+  if (!req.session.user) {
+    return res.status(401).json({ message: "You must be logged in" });
+  }
+  const eventId = req.params.id;
+  try {
+    const event = await await prisma.event.update({
+      where: {
+        id: eventId,
+      },
+      include: {
+        participants: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
+        },
+      },
+      data: {
+        participants: {
+          connect: {
+            id: req.session.user.id,
+          },
+        },
+      },
+    });
+    res.json(event);
+  } catch (error) {
+    res.status(500).json({ message: "Failed,try again later", error });
+  }
+});
 
 const shutdown = async () => {
   try {

@@ -2,14 +2,15 @@ import { PrismaClient } from "@prisma/client";
 import express, { NextFunction, Request, Response } from "express";
 import { loginRequired } from "../middleware/loginCheck";
 import { CustomRequest } from "../app";
-import dayjs from "dayjs";
-import timezone from "dayjs/plugin/timezone";
-import utc from "dayjs/plugin/utc";
+// import dayjs from "dayjs";
+// import timezone from "dayjs/plugin/timezone";
+// import utc from "dayjs/plugin/utc";
 
 const prisma = new PrismaClient();
 const router = express.Router();
-dayjs.extend(timezone);
-dayjs.extend(utc);
+
+// dayjs.extend(timezone);
+// dayjs.extend(utc);
 //send a msg
 router.post(
   "/",
@@ -27,17 +28,14 @@ router.post(
       if (!sender) {
         return res.status(404).json({ message: "Sender not found" });
       }
-      const currentTime = dayjs().utc();
-      const sydneyDate = currentTime
-        .tz("Australia/Sydney")
-        .format("YYYY-MM-DD HH:mm:ss");
+      const currentTime = String(new Date());
       const newMsg = await prisma.chat.create({
         data: {
           message,
           senderId,
           groupId,
           senderName: sender.name,
-          timestamp: sydneyDate,
+          timestamp: currentTime,
         },
       });
 

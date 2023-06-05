@@ -1,0 +1,44 @@
+.sideBar {
+  margin: 0;
+  padding: 0;
+  width: 200px;
+  background-color: #f1f1f1;
+  position: fixed;
+  height: 100%;
+  overflow: auto;
+}
+
+.sideBar li {
+  display: block;
+  color: black;
+  padding: 16px;
+  text-decoration: none;
+}
+
+.sideBar li.active {
+  background-color: #04aa6d;
+  color: white;
+}
+
+.sideBar li:hover:not(.active) {
+  background-color: #555;
+  color: white;
+}
+
+@media screen and (max-width: 700px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+  .sideBar li {
+    float: left;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .sideBar li {
+    text-align: center;
+    float: none;
+  }
+}

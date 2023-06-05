@@ -49,7 +49,7 @@ const Chat = () => {
     const res = await fetch(`/api/groups/${id}`);
     const data = await res.json();
     const { messages } = data;
-    console.log(messages);
+    setSelectedGroupID(`${id}`);
     setHasSelectedChat(true);
     setInitialMessages(
       messages.map((message: any) => ({
@@ -64,7 +64,7 @@ const Chat = () => {
   };
 
   return (
-    <Flex bg="white" flex="1">
+    <Flex bg="white" flex="1" ml="200px" padding="1px 16px" height="1000px">
       <Box mt="20px" padding="20px">
         <ul className="chatLists">
           {chatRooms &&
@@ -74,7 +74,6 @@ const Chat = () => {
                   key={room.id}
                   className="chatRoomName"
                   onClick={() => {
-                    setSelectedGroupID(`${room.id}`);
                     displayChat(`${room.id}`);
                   }}
                 >

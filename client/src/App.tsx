@@ -1,5 +1,4 @@
 import { Routes, Route } from "react-router-dom";
-
 import "./App.css";
 import { SignupAndLogin } from "./pages/SignupAndLogin";
 import Home from "./pages/Home";
@@ -12,6 +11,7 @@ import Settings from "./components/Setting";
 import Events from "./components/Events";
 import Chat from "./components/ChatRoom";
 import HeadingAndNavBar from "./components/HeadingAndNavBar";
+import UserInfo from "./components/UserInfo";
 
 function App() {
   const { user, logout } = useAuth() as AuthContextType;
@@ -57,6 +57,7 @@ function App() {
           <Route path="/events" element={<Events />} />
           <Route path="/setting" element={<Settings />} />
           <Route path="/*" element={<NotFound />} />
+          <Route path="/user/:userId" element={<UserInfo />} />
         </Route>
       </Routes>
     </Container>

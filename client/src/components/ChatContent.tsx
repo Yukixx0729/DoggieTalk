@@ -1,9 +1,17 @@
 import { Box, Text, Flex } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 import { Message } from "./ChatRoom";
 import { Socket } from "socket.io-client";
 import { useAuth, AuthContextType } from "../contexts/AuthProvider";
 import { useEffect, useState } from "react";
 import ChatForm from "./ChatForm";
+
+import dayjs from "dayjs";
+import timezone from "dayjs/plugin/timezone";
+import utc from "dayjs/plugin/utc";
+
+dayjs.extend(timezone);
+dayjs.extend(utc);
 
 export interface ChatContentProps {
   initialMessages: Message[];
@@ -24,11 +32,15 @@ const ChatContent: React.FC<ChatContentProps> = ({
   const [messages, setMessages] = useState<Message[]>(initialMessages);
 
   useEffect(() => {
-    console.log("Get new message(s)");
-    console.log(initialMessages);
+    setMessages(initialMessages);
+  }, [initialMessages]);
+
+  useEffect(() => {
+    // console.log("Get new message(s)");
+    // console.log(initialMessages);
     socket.on("new_message", (newMsg: Message) => {
-      console.log("Received new message", newMsg);
-      console.log("messages", messages);
+      // console.log("Received new message", newMsg);
+      // console.log("messages", messages);
       setMessages((prevMessages) => [...prevMessages, newMsg]);
     });
   }, []);
@@ -38,18 +50,27 @@ const ChatContent: React.FC<ChatContentProps> = ({
       <Box overflow="scroll" maxH="500px">
         <ul>
           {messages.map(({ id, senderId, message, senderName, timestamp }) => {
+            const currentTime = dayjs(timestamp).utc();
+            const sydneyDate = currentTime
+              .tz("Australia/Sydney")
+              .format("YYYY-MM-DD HH:mm:ss");
             return (
               <li key={`${id}-${timestamp}`}>
                 {senderId === user.id ? (
                   <Box bg="#c4ffc450" padding="10px" borderRadius="8px">
-                    <Text>
-                      {senderName} {timestamp}
+                    <Text as="em">
+                      {senderName} {sydneyDate}
                     </Text>
                     <Text>{message}</Text>
                   </Box>
                 ) : (
                   <Box bg="#c4c4ff50" padding="10px" borderRadius="8px">
-                    <Text>{senderName}</Text>
+                    <Text>
+                      <Link to={`/user/${senderId}`}>
+                        <Text as="b">{senderName}</Text>
+                      </Link>{" "}
+                      {sydneyDate}
+                    </Text>
                     <Text>{message}</Text>
                   </Box>
                 )}

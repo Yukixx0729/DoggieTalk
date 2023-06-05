@@ -12,13 +12,7 @@ const WelcomeContent = () => {
     getFact();
   }, []);
   return (
-    <Box
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      bg="white"
-      flex="1"
-    >
+    <Box ml="200px" padding="1px 16px" height="1000px">
       {fact ? (
         <Text margin="20px">{fact}</Text>
       ) : (

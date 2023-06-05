@@ -1,9 +1,9 @@
-import { Box } from "@chakra-ui/react";
+import "./HeadingAndNavBar.css";
 import { Link } from "react-router-dom";
 const HeadingAndNavBar = () => {
   return (
-    <Box padding="20px">
-      <ul>
+    <div>
+      <ul className="sideBar">
         <li>
           <Link to="/">Home</Link>
         </li>
@@ -17,7 +17,7 @@ const HeadingAndNavBar = () => {
           <Link to="/setting">Settings</Link>
         </li>
       </ul>
-    </Box>
+    </div>
   );
 };
 
