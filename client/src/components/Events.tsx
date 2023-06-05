@@ -5,8 +5,11 @@ import {
   CardBody,
   CardFooter,
   Button,
+  HStack,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { useAuth, AuthContextType } from "../contexts/AuthProvider";
 
 interface Events {
   id: string;
@@ -25,7 +28,7 @@ interface participants {
 
 const Events = () => {
   const [events, setEvents] = useState<Events[]>([]);
-
+  const { user } = useAuth() as AuthContextType;
   useEffect(() => {
     const getEvents = async () => {
       const res = await fetch("/api/events");
@@ -48,7 +51,7 @@ const Events = () => {
       );
     };
     getEvents();
-  }, []);
+  }, [events]);
 
   const joinEvent = async (eventId: string) => {
     const res = await fetch(`/api/events/${eventId}`, {
@@ -61,39 +64,51 @@ const Events = () => {
     const data = await res.json();
     console.log(data.participants);
     const selectEvent = events.map((event) => {
-      if (event.id === `${eventId}`)
+      if (event.id === `${eventId}`) {
         return {
           ...event,
           participants: [data.participants],
         };
+      }
+      return event;
     });
     console.log(selectEvent);
-    // setEvents([...events, selectEvent]);
+    setEvents(selectEvent);
   };
+
   return (
-    <Box ml="200px" padding="1px 16px" height="1000px">
+    <Box ml="220px" padding="1px 16px" height="1000px">
+      <Button>Create an event!</Button>
       {events.length &&
         events.map((event) => {
           return (
             <Card key={event.id} mt="20px">
-              <CardHeader>{event.title}</CardHeader>
+              <CardHeader>Event title: {event.title}</CardHeader>
               <CardBody>
                 Date:{event.date} Location: {event.location}
               </CardBody>
-              <CardBody>{event.description}</CardBody>
-              <CardFooter>
+              <CardBody>Description: {event.description}</CardBody>
+              <CardBody>
                 Participants:{" "}
-                {event.participants.map((person) => {
-                  return <span key={person.id}>{person.name} </span>;
-                })}
+                <HStack spacing="8px">
+                  {event.participants.map((person) => {
+                    return (
+                      <Box key={`${event.title} ${person.id}`}>
+                        <Link to={`/user/${person.id}`}>{person.name}</Link>
+                      </Box>
+                    );
+                  })}
+                </HStack>
+              </CardBody>
+              <CardFooter>
+                <Button
+                  onClick={() => {
+                    joinEvent(`${event.id}`);
+                  }}
+                >
+                  Join the event too!
+                </Button>
               </CardFooter>
-              <Button
-                onClick={() => {
-                  joinEvent(`${event.id}`);
-                }}
-              >
-                Join the event too!
-              </Button>
             </Card>
           );
         })}

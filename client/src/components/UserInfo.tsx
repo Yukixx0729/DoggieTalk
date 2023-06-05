@@ -56,21 +56,39 @@ const UserInfo = () => {
     getInfo();
   }, []);
 
-  const groupCheck = async (groupName: string) => {
+  const groupCheck = async (id: string) => {
     const res = await fetch(`/api/users/${user.id}`);
     const data = await res.json();
-    console.log(info.userName);
+
     const checkResult = data.groups.filter((group: any) => {
-      return group.name.includes(groupName);
+      console.log(
+        group.users.length === 2,
+        group.users.filter((user: any) => user.id === `${user.id}`).length,
+        group.users.filter((user: any) => user.id === id).length,
+        group.name.includes("Chat")
+      );
+      if (
+        group.users.length === 2 &&
+        group.users.filter((user: any) => user.id === `${user.id}`).length &&
+        group.users.filter((user: any) => user.id === id).length &&
+        group.name.includes("Chat")
+      )
+        return group;
+
+      // );
     });
     return checkResult;
   };
 
   const CreatePMChat = async (id: string, name: string) => {
-    const groupinfo = { name: `Chat with ${name}`, members: [id] };
-    const result = await groupCheck(`${groupinfo.name}`);
+    const groupinfo = { name: `Chat - ${name} & ${user.name}`, members: [id] };
+    const result = await groupCheck(id);
+    console.log(result, "++");
     if (result.length > 0) {
       setCheckChat(true);
+      setTimeout(() => {
+        navigate("/chat");
+      }, 2000);
     } else {
       const res = await fetch("/api/groups", {
         method: "POST",

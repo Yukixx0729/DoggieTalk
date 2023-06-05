@@ -26,6 +26,7 @@ router.get("/:id", async (req: CustomRequest, res: Response) => {
         groups: {
           include: {
             messages: true,
+            users: true,
           },
         },
         events: {

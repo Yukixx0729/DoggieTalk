@@ -77,7 +77,7 @@ const Chat = () => {
                     displayChat(`${room.id}`);
                   }}
                 >
-                  {room.name}
+                  💬 {room.name}
                 </li>
               );
             })}
