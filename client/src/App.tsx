@@ -31,7 +31,7 @@ function App() {
         <Container maxW="8xl">
           <Box
             textAlign="left"
-            bg="green.400"
+            bg="#7A999B"
             display="flex"
             justifyContent="space-between"
             alignItems="center"

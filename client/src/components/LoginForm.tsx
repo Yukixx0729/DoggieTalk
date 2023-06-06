@@ -4,10 +4,12 @@ import { Heading, Input, Box } from "@chakra-ui/react";
 
 const LoginForm = () => {
   const { login } = useAuth() as AuthContextType;
-  const [invalidUser, setInvalidUser] = useState(null);
+  const [invalidUser, setInvalidUser] = useState<String>("");
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const fields = Object.fromEntries(new FormData(e.currentTarget));
+
     try {
       await login(fields);
     } catch (err: any) {

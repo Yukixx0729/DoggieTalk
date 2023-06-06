@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuth, AuthContextType } from "../contexts/AuthProvider";
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Flex, Heading } from "@chakra-ui/react";
 import "./ChatRoom.css";
 import ChatContent from "./ChatContent";
 import { io, Socket } from "socket.io-client";
@@ -43,7 +43,7 @@ const Chat = () => {
       setChatRooms(data.groups);
     };
     getChatRooms();
-  }, []);
+  }, [chatRooms]);
 
   const displayChat = async (id: string) => {
     const res = await fetch(`/api/groups/${id}`);
@@ -67,6 +67,9 @@ const Chat = () => {
     <Flex bg="white" flex="1" ml="200px" padding="1px 16px" height="1000px">
       <Box mt="20px" padding="20px">
         <ul className="chatLists">
+          <Heading textAlign="center" size="md" as="i">
+            Chats
+          </Heading>
           {chatRooms &&
             chatRooms.map((room) => {
               return (

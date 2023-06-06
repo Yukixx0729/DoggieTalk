@@ -5,7 +5,7 @@ import { Socket } from "socket.io-client";
 import { useAuth, AuthContextType } from "../contexts/AuthProvider";
 import { useEffect, useState } from "react";
 import ChatForm from "./ChatForm";
-
+import "./ChatContent.css";
 import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
@@ -46,25 +46,40 @@ const ChatContent: React.FC<ChatContentProps> = ({
   }, []);
 
   return (
-    <Flex direction="column">
-      <Box overflow="scroll" maxH="500px">
+    <Flex
+      direction="column"
+      justifyContent="center"
+      alignItems="center"
+      height="100vh"
+    >
+      <div className="chatContainer">
         <ul>
           {messages.map(({ id, senderId, message, senderName, timestamp }) => {
             const currentTime = dayjs(timestamp).utc();
             const sydneyDate = currentTime
               .tz("Australia/Sydney")
-              .format("YYYY-MM-DD HH:mm:ss");
+              .format("YYYY-MM-DD HH:mm");
             return (
               <li key={`${id}-${timestamp}`}>
                 {senderId === user.id ? (
-                  <Box bg="#c4ffc450" padding="10px" borderRadius="8px">
+                  <Box
+                    bg="#c4ffc450"
+                    padding="10px"
+                    borderRadius="8px"
+                    className="myMsg"
+                  >
                     <Text as="em">
-                      {senderName} {sydneyDate}
+                      {senderName}(yourself) {sydneyDate}
                     </Text>
                     <Text>{message}</Text>
                   </Box>
                 ) : (
-                  <Box bg="#c4c4ff50" padding="10px" borderRadius="8px">
+                  <Box
+                    bg="#c4c4ff50"
+                    padding="10px"
+                    borderRadius="8px"
+                    className="othersMsg"
+                  >
                     <Text>
                       <Link to={`/user/${senderId}`}>
                         <Text as="b">{senderName}</Text>
@@ -78,7 +93,7 @@ const ChatContent: React.FC<ChatContentProps> = ({
             );
           })}
         </ul>
-      </Box>
+      </div>
 
       <ChatForm
         selectedGroupID={selectedGroupID}

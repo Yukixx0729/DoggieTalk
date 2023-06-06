@@ -1,0 +1,23 @@
+.chatContainer {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black;
+  width: 500px;
+  overflow: scroll;
+  max-height: 1000px;
+  height: 600px;
+  margin-left: 100px;
+  scroll-behavior: smooth;
+}
+
+.myMsg {
+  float: right;
+  clear: both;
+  margin-bottom: 10px;
+}
+
+.othersMsg {
+  float: left;
+  clear: both;
+  margin-bottom: 10px;
+}

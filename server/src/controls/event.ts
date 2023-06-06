@@ -24,6 +24,9 @@ router.get("/", loginRequired, async (req: Request, res: Response) => {
           },
         },
       },
+      orderBy: {
+        date: "asc",
+      },
     });
     res.json(events);
   } catch (error) {

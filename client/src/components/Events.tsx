@@ -6,10 +6,20 @@ import {
   CardFooter,
   Button,
   HStack,
+  Heading,
+  Text,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth, AuthContextType } from "../contexts/AuthProvider";
+import CreateAnEvent from "./CreateAnEvent";
+
+import dayjs from "dayjs";
+import timezone from "dayjs/plugin/timezone";
+import utc from "dayjs/plugin/utc";
+
+dayjs.extend(timezone);
+dayjs.extend(utc);
 
 interface Events {
   id: string;
@@ -29,6 +39,8 @@ interface participants {
 const Events = () => {
   const [events, setEvents] = useState<Events[]>([]);
   const { user } = useAuth() as AuthContextType;
+  const [displayForm, setDisplayForm] = useState<boolean>(false);
+
   useEffect(() => {
     const getEvents = async () => {
       const res = await fetch("/api/events");
@@ -62,7 +74,6 @@ const Events = () => {
       body: JSON.stringify({}),
     });
     const data = await res.json();
-    console.log(data.participants);
     const selectEvent = events.map((event) => {
       if (event.id === `${eventId}`) {
         return {
@@ -72,20 +83,46 @@ const Events = () => {
       }
       return event;
     });
-    console.log(selectEvent);
     setEvents(selectEvent);
   };
 
+  const handleDisplayForm = () => {
+    if (displayForm) {
+      setDisplayForm(false);
+    } else {
+      setDisplayForm(true);
+    }
+  };
   return (
-    <Box ml="220px" padding="1px 16px" height="1000px">
-      <Button>Create an event!</Button>
+    <Box ml="220px" padding="1px 16px">
+      <Box textAlign="center">
+        <Button
+          colorScheme="blue"
+          mt="20px"
+          mb="20px"
+          onClick={() => {
+            handleDisplayForm();
+          }}
+        >
+          Create an event!
+        </Button>
+        {displayForm && <CreateAnEvent />}
+      </Box>
+      <Heading textAlign="center">Events' list</Heading>
       {events.length &&
         events.map((event) => {
+          const currentTime = dayjs(event.date).utc();
+          const sydneyDate = currentTime
+            .tz("Australia/Sydney")
+            .format("YYYY-MM-DD HH:mm");
+          const isUserJoined = event.participants.some(
+            (participant) => participant.id === user.id
+          );
           return (
-            <Card key={event.id} mt="20px">
+            <Card key={event.id} mt="50px" mr="150px" ml="150px" bg="#E7E1C450">
               <CardHeader>Event title: {event.title}</CardHeader>
               <CardBody>
-                Date:{event.date} Location: {event.location}
+                Date:{sydneyDate} Location: {event.location}
               </CardBody>
               <CardBody>Description: {event.description}</CardBody>
               <CardBody>
@@ -94,20 +131,26 @@ const Events = () => {
                   {event.participants.map((person) => {
                     return (
                       <Box key={`${event.title} ${person.id}`}>
-                        <Link to={`/user/${person.id}`}>{person.name}</Link>
+                        {person.id === user.id ? (
+                          <Text>{person.name}(Yourself)</Text>
+                        ) : (
+                          <Text as="b">
+                            <Link to={`/user/${person.id}`}>{person.name}</Link>
+                          </Text>
+                        )}
                       </Box>
                     );
                   })}
                 </HStack>
               </CardBody>
               <CardFooter>
-                <Button
-                  onClick={() => {
-                    joinEvent(`${event.id}`);
-                  }}
-                >
-                  Join the event too!
-                </Button>
+                {!isUserJoined ? (
+                  <Button onClick={() => joinEvent(event.id)}>
+                    Join the event!
+                  </Button>
+                ) : (
+                  <Text>Joined</Text>
+                )}
               </CardFooter>
             </Card>
           );

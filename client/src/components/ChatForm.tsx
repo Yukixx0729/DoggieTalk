@@ -40,7 +40,7 @@ const ChatForm: React.FC<ChatFormProps> = ({ selectedGroupID, socket }) => {
     setChatInput("");
   };
   return (
-    <Box mt="20px">
+    <Box width="500px" ml="100px">
       <form onSubmit={handleSubmit}>
         <Textarea
           name="message"
