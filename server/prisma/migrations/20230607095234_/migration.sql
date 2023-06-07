@@ -46,6 +46,7 @@ CREATE TABLE "Event" (
     "description" TEXT NOT NULL,
     "location" TEXT NOT NULL,
     "date" TIMESTAMP(3) NOT NULL,
+    "host" TEXT NOT NULL,
 
     CONSTRAINT "Event_pkey" PRIMARY KEY ("id")
 );

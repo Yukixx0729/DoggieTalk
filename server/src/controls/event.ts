@@ -33,6 +33,7 @@ router.get("/", loginRequired, async (req: Request, res: Response) => {
     res.status(500).json({ message: "Failed,try again later", error });
   }
 });
+
 //post an event
 router.post("/", loginRequired, async (req: Request, res: Response) => {
   const { title, description, location, date } = req.body;
@@ -45,6 +46,7 @@ router.post("/", loginRequired, async (req: Request, res: Response) => {
         title,
         description,
         location,
+        host: req.session.user.id,
         date: new Date(date),
         participants: {
           connect: {
@@ -85,32 +87,76 @@ router.put("/:id", loginRequired, async (req: Request, res: Response) => {
   if (!req.session.user) {
     return res.status(401).json({ message: "You must be logged in" });
   }
+
   const eventId = req.params.id;
+  const { join, unjoin } = req.body;
+
   try {
-    const event = await await prisma.event.update({
-      where: {
-        id: eventId,
-      },
-      include: {
-        participants: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
+    let event;
+
+    if (join) {
+      event = await prisma.event.update({
+        where: {
+          id: eventId,
+        },
+        include: {
+          participants: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+            },
           },
         },
-      },
-      data: {
-        participants: {
-          connect: {
-            id: req.session.user.id,
+        data: {
+          participants: {
+            connect: {
+              id: req.session.user.id,
+            },
           },
         },
-      },
-    });
+      });
+    } else if (unjoin) {
+      event = await prisma.event.update({
+        where: {
+          id: eventId,
+        },
+        include: {
+          participants: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+            },
+          },
+        },
+        data: {
+          participants: {
+            disconnect: {
+              id: req.session.user.id,
+            },
+          },
+        },
+      });
+    }
+
     res.json(event);
   } catch (error) {
-    res.status(500).json({ message: "Failed,try again later", error });
+    res.status(500).json({ message: "Failed, try again later", error });
+  }
+});
+
+//delete an event
+router.delete("/:id", loginRequired, async (req: Request, res: Response) => {
+  const eventId = req.params.id;
+
+  try {
+    const deletedEvent = await prisma.event.delete({
+      where: { id: eventId },
+    });
+    return res.json({ message: "Deleted event." });
+  } catch (error) {
+    res.status(500).json({ message: "Event not found.", error });
   }
 });
 

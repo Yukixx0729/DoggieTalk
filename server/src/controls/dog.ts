@@ -34,6 +34,7 @@ router.get("/:id", loginRequired, async (req: Request, res: Response) => {
     const dogs = await prisma.dog.findMany({
       where: { userId },
     });
+
     if (!dogs.length) {
       return res
         .status(404)

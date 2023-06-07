@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAuth, AuthContextType } from "../contexts/AuthProvider";
-import { Heading, Input, Box } from "@chakra-ui/react";
+import { Heading, Input, Box, Text } from "@chakra-ui/react";
 
 const LoginForm = () => {
   const { login } = useAuth() as AuthContextType;
@@ -35,7 +35,7 @@ const LoginForm = () => {
 
         <Input type="submit" value="login" />
       </form>
-      {invalidUser}
+      <Text color="red">{invalidUser}</Text>
     </Box>
   );
 };

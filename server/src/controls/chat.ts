@@ -2,15 +2,10 @@ import { PrismaClient } from "@prisma/client";
 import express, { NextFunction, Request, Response } from "express";
 import { loginRequired } from "../middleware/loginCheck";
 import { CustomRequest } from "../app";
-// import dayjs from "dayjs";
-// import timezone from "dayjs/plugin/timezone";
-// import utc from "dayjs/plugin/utc";
 
 const prisma = new PrismaClient();
 const router = express.Router();
 
-// dayjs.extend(timezone);
-// dayjs.extend(utc);
 //send a msg
 router.post(
   "/",
@@ -42,7 +37,7 @@ router.post(
       // io?.emit("new message", newMsg);
       // io?.to(groupId).emit("new_message", newMsg);
       socket?.emit("new_message", newMsg);
-      console.log("emitted: ", newMsg);
+      // console.log("emitted: ", newMsg);
 
       res.status(201).json(newMsg);
     } catch (error) {

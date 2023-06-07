@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import "./App.css";
 import { SignupAndLogin } from "./pages/SignupAndLogin";
 import Home from "./pages/Home";
@@ -7,24 +7,36 @@ import { useAuth, AuthContextType } from "./contexts/AuthProvider";
 import "./App.css";
 import PrivateRoutes from "./components/PrivateRoutes";
 import { Button, Container, Heading, Box } from "@chakra-ui/react";
-import Settings from "./components/Setting";
+import MyAccount from "./components/MyAccount";
 import Events from "./components/Events";
 import Chat from "./components/ChatRoom";
 import HeadingAndNavBar from "./components/HeadingAndNavBar";
 import UserInfo from "./components/UserInfo";
+import { useEffect } from "react";
 
 function App() {
   const { user, logout } = useAuth() as AuthContextType;
-  // const [response, setResponse] = useState("");
+  const navigate = useNavigate();
+  const location = useLocation();
 
   // useEffect(() => {
-  //   const socket = socketIOClient(ENDPOINT);
-  //   socket.on("FromAPI", (data: any) => {
-  //     setResponse(data);
-  //     console.log(response);
-  //   });
-  // }, []);
+  //   const storedRoute = localStorage.getItem("currentRoute");
+  //   if (storedRoute) {
+  //     localStorage.removeItem("currentRoute");
+  //     navigate(storedRoute, { replace: true });
+  //   }
+  // }, [navigate]);
 
+  // useEffect(() => {
+  //   localStorage.setItem("currentRoute", location.pathname);
+  // }, [location]);
+
+  // const handleRefreshChange = (route: string) => {
+  //   const currentRoute = localStorage.getItem("currentRoute");
+  //   if (currentRoute) {
+  //     navigate(currentRoute);
+  //   }
+  // };
   return (
     <Container maxW="8xl">
       {user && (
@@ -55,7 +67,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/chat" element={<Chat />} />
           <Route path="/events" element={<Events />} />
-          <Route path="/setting" element={<Settings />} />
+          <Route path="/myaccount" element={<MyAccount />} />
           <Route path="/*" element={<NotFound />} />
           <Route path="/user/:userId" element={<UserInfo />} />
         </Route>

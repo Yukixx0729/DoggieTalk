@@ -1,6 +1,5 @@
 import express, { Request, Response, NextFunction, Application } from "express";
 import { Server } from "socket.io";
-// import { createServer } from "http";
 import userRouter from "./controls/user";
 import sessionRouter from "./controls/session";
 import dogRouter from "./controls/dog";
@@ -42,7 +41,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "*",
+    origin: "http://localhost:5173",
     methods: ["GET", "POST"],
   },
 });
@@ -54,7 +53,6 @@ const socketMiddleware = (io: Server) => {
   };
 };
 
-// app.use(attachIOToRequest); // middleware function to share IO instance to all nested routes
 app.use(socketMiddleware(io));
 
 io.on("connection", (socket) => {

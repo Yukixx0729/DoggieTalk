@@ -20,15 +20,13 @@ router.post("/", async (req: Request, res: Response, next: NextFunction) => {
     const user = await prisma.users.findMany({
       where: { email: email },
     });
-
-    if (!user) {
-      return res.status(404).json({ message: "Invalid username or password" });
-    }
     const passwordValid = checkPasswordHash(password, user[0].Password);
     if (passwordValid) {
       const userWithoutPassword = exclude(user[0], "Password");
       req.session.user = userWithoutPassword;
       res.json(userWithoutPassword);
+    } else {
+      return res.status(404).json({ message: "Invalid username or password" });
     }
   } catch (error) {
     res.status(500).json({ message: "User not found.", error });

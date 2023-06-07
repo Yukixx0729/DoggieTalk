@@ -71,7 +71,7 @@ const Events = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({}),
+      body: JSON.stringify({ join: true }),
     });
     const data = await res.json();
     const selectEvent = events.map((event) => {

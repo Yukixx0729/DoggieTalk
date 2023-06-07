@@ -84,7 +84,7 @@ router.post("/", async (req: Request, res: Response) => {
         email,
         Password: hashedPassword,
         groups: {
-          connect: [{ id: "clihhgwce0004eiir9t6kskf2" }],
+          connect: [{ id: "cliljb8dg0002eia7n355cgaf" }],
         },
       },
     });

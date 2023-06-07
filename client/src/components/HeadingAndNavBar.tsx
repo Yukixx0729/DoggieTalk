@@ -14,7 +14,7 @@ const HeadingAndNavBar = () => {
           <Link to="/events">Events</Link>
         </li>
         <li>
-          <Link to="/setting">Settings</Link>
+          <Link to="/myaccount">My Account</Link>
         </li>
       </ul>
     </div>

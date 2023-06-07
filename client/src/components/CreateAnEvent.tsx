@@ -1,6 +1,9 @@
 import { Box, Input, Textarea } from "@chakra-ui/react";
+import { useRef } from "react";
 
 const CreateAnEvent = () => {
+  const formRef = useRef<HTMLFormElement>(null);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const fields = Object.fromEntries(new FormData(e.currentTarget));
@@ -19,10 +22,13 @@ const CreateAnEvent = () => {
         message: data.message,
       };
     }
+    if (formRef.current) {
+      formRef.current.reset();
+    }
   };
   return (
     <Box mr="250px" ml="250px" alignContent="center" mb="20px">
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} ref={formRef}>
         <Input name="title" placeholder="event title" required />
         <Input
           type="datetime-local"

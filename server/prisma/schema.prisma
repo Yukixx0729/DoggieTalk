@@ -54,5 +54,6 @@ model Event {
   description   String
   location      String
   date          DateTime
+  host          String
   participants  Users[]  @relation("EventParticipants")
 }
