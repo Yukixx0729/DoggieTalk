@@ -45,6 +45,7 @@ const Events = () => {
     const getEvents = async () => {
       const res = await fetch("/api/events");
       const data = await res.json();
+
       if (res.status !== 200) {
         throw {
           status: res.status,
@@ -63,7 +64,7 @@ const Events = () => {
       );
     };
     getEvents();
-  }, [events]);
+  }, []);
 
   const joinEvent = async (eventId: string) => {
     const res = await fetch(`/api/events/${eventId}`, {

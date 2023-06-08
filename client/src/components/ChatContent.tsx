@@ -20,8 +20,6 @@ export interface ChatContentProps {
   socket: Socket;
 }
 
-// const socket: Socket = io("http://localhost:3000");
-
 const ChatContent: React.FC<ChatContentProps> = ({
   initialMessages,
   selectedGroupID,
@@ -36,11 +34,7 @@ const ChatContent: React.FC<ChatContentProps> = ({
   }, [initialMessages]);
 
   useEffect(() => {
-    // console.log("Get new message(s)");
-    // console.log(initialMessages);
     socket.on("new_message", (newMsg: Message) => {
-      // console.log("Received new message", newMsg);
-      // console.log("messages", messages);
       setMessages((prevMessages) => [...prevMessages, newMsg]);
     });
   }, []);

@@ -1,4 +1,4 @@
-import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import "./App.css";
 import { SignupAndLogin } from "./pages/SignupAndLogin";
 import Home from "./pages/Home";
@@ -6,59 +6,35 @@ import NotFound from "./pages/NotFound";
 import { useAuth, AuthContextType } from "./contexts/AuthProvider";
 import "./App.css";
 import PrivateRoutes from "./components/PrivateRoutes";
-import { Button, Container, Heading, Box } from "@chakra-ui/react";
+import { Button, Container } from "@chakra-ui/react";
 import MyAccount from "./components/MyAccount";
 import Events from "./components/Events";
 import Chat from "./components/ChatRoom";
 import HeadingAndNavBar from "./components/HeadingAndNavBar";
 import UserInfo from "./components/UserInfo";
-import { useEffect } from "react";
+import logo from "../public/image/logo.png";
 
 function App() {
   const { user, logout } = useAuth() as AuthContextType;
-  const navigate = useNavigate();
-  const location = useLocation();
 
-  // useEffect(() => {
-  //   const storedRoute = localStorage.getItem("currentRoute");
-  //   if (storedRoute) {
-  //     localStorage.removeItem("currentRoute");
-  //     navigate(storedRoute, { replace: true });
-  //   }
-  // }, [navigate]);
-
-  // useEffect(() => {
-  //   localStorage.setItem("currentRoute", location.pathname);
-  // }, [location]);
-
-  // const handleRefreshChange = (route: string) => {
-  //   const currentRoute = localStorage.getItem("currentRoute");
-  //   if (currentRoute) {
-  //     navigate(currentRoute);
-  //   }
-  // };
   return (
     <Container maxW="8xl">
       {user && (
-        <Container maxW="8xl">
-          <Box
-            textAlign="left"
-            bg="#7A999B"
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-            padding="20px"
-          >
-            <Heading size="2xl">Doggie Talk🐶</Heading>
-            <Heading size="l" ml="4">
+        <div>
+          <div className="titleContainer">
+            <h1 className="mainTitle">
+              <img src={logo} alt="logo pic" id="logo" />
+              Doggie Talk
+            </h1>
+            <h1 id="logoutTitle">
               Hello, {user.name}!{" "}
               <Button colorScheme="blue" size="xs" onClick={logout}>
                 Logout
               </Button>
-            </Heading>
-          </Box>
+            </h1>
+          </div>
           <HeadingAndNavBar />
-        </Container>
+        </div>
       )}
 
       <Routes>

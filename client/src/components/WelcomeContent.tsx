@@ -1,5 +1,6 @@
-import { Box, Text, Image } from "@chakra-ui/react";
+import { Text, Image } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
+import "./WelcomeContent.css";
 
 const WelcomeContent = () => {
   const [fact, setFact] = useState(null);
@@ -19,7 +20,7 @@ const WelcomeContent = () => {
     getImage();
   }, []);
   return (
-    <Box ml="220px" padding="1px 16px" textAlign="center">
+    <div className="welcomeContainer">
       {fact ? (
         <Text margin="20px">{fact}</Text>
       ) : (
@@ -37,7 +38,7 @@ const WelcomeContent = () => {
       ) : (
         <Text>Pending random dog image. </Text>
       )}
-    </Box>
+    </div>
   );
 };
 

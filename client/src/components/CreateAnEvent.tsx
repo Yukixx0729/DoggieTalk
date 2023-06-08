@@ -26,6 +26,7 @@ const CreateAnEvent = () => {
       formRef.current.reset();
     }
   };
+
   return (
     <Box mr="250px" ml="250px" alignContent="center" mb="20px">
       <form onSubmit={handleSubmit} ref={formRef}>

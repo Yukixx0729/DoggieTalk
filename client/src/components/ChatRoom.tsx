@@ -43,7 +43,7 @@ const Chat = () => {
       setChatRooms(data.groups);
     };
     getChatRooms();
-  }, [chatRooms]);
+  }, []);
 
   const displayChat = async (id: string) => {
     const res = await fetch(`/api/groups/${id}`);
@@ -64,12 +64,10 @@ const Chat = () => {
   };
 
   return (
-    <Flex bg="white" flex="1" ml="200px" padding="1px 16px" height="1000px">
+    <div className="mainContainter">
       <Box mt="20px" padding="20px">
         <ul className="chatLists">
-          <Heading textAlign="center" size="md" as="i">
-            Chats
-          </Heading>
+          <h1>Chats</h1>
           {chatRooms &&
             chatRooms.map((room) => {
               return (
@@ -94,7 +92,7 @@ const Chat = () => {
           socket={socket}
         />
       ) : null}
-    </Flex>
+    </div>
   );
 };
 

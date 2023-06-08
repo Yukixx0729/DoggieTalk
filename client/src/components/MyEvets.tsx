@@ -56,7 +56,7 @@ const MyEvents = () => {
   }, []);
 
   const handleDeleteEvent = async (id: string) => {
-    const res = await fetch(`/api/events/${id}`, {
+    await fetch(`/api/events/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -67,7 +67,7 @@ const MyEvents = () => {
   };
 
   const handleUnjoin = async (id: string) => {
-    const res = await fetch(`/api/events/${id}`, {
+    await fetch(`/api/events/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
