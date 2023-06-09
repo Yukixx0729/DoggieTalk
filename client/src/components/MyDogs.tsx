@@ -1,11 +1,4 @@
-import {
-  Box,
-  Button,
-  Card,
-  CardBody,
-  CardHeader,
-  Text,
-} from "@chakra-ui/react";
+import { Button, Card, CardBody, CardHeader, Text } from "@chakra-ui/react";
 import { useAuth, AuthContextType } from "../contexts/AuthProvider";
 import { useEffect, useState } from "react";
 import AddDogForm from "./AddDogForm";
@@ -59,7 +52,7 @@ const MyDogs = () => {
   };
 
   return (
-    <Box ml="220px" padding="1px 16px" mt="50px">
+    <div className="mysetting-container">
       <Button colorScheme="blue" onClick={handleOnClick}>
         Add my dog(s)
       </Button>
@@ -69,7 +62,7 @@ const MyDogs = () => {
       )}
       {dogs.map((dog) => {
         return (
-          <Card key={dog.id} mt="50px">
+          <Card key={dog.id} mt="50px" width="500px">
             <CardHeader>MY DOG</CardHeader>
             <CardBody>
               Name: {dog.name} Age: {dog.age}yr(s)
@@ -85,7 +78,7 @@ const MyDogs = () => {
           </Card>
         );
       })}
-    </Box>
+    </div>
   );
 };
 

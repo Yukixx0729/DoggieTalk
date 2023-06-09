@@ -6,7 +6,6 @@ import {
   CardFooter,
   Button,
   HStack,
-  Heading,
   Text,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
@@ -41,28 +40,29 @@ const Events = () => {
   const { user } = useAuth() as AuthContextType;
   const [displayForm, setDisplayForm] = useState<boolean>(false);
 
-  useEffect(() => {
-    const getEvents = async () => {
-      const res = await fetch("/api/events");
-      const data = await res.json();
+  const getEvents = async () => {
+    const res = await fetch("/api/events");
+    const data = await res.json();
 
-      if (res.status !== 200) {
-        throw {
-          status: res.status,
-          message: data.message,
-        };
-      }
-      setEvents(
-        data.map((event: any) => ({
-          id: event.id,
-          date: event.date,
-          description: event.description,
-          location: event.location,
-          title: event.title,
-          participants: event.participants,
-        }))
-      );
-    };
+    if (res.status !== 200) {
+      throw {
+        status: res.status,
+        message: data.message,
+      };
+    }
+    setEvents(
+      data.map((event: any) => ({
+        id: event.id,
+        date: event.date,
+        description: event.description,
+        location: event.location,
+        title: event.title,
+        participants: event.participants,
+      }))
+    );
+  };
+
+  useEffect(() => {
     getEvents();
   }, []);
 
@@ -74,17 +74,8 @@ const Events = () => {
       },
       body: JSON.stringify({ join: true }),
     });
-    const data = await res.json();
-    const selectEvent = events.map((event) => {
-      if (event.id === `${eventId}`) {
-        return {
-          ...event,
-          participants: [data.participants],
-        };
-      }
-      return event;
-    });
-    setEvents(selectEvent);
+    await res.json();
+    getEvents();
   };
 
   const handleDisplayForm = () => {
@@ -95,21 +86,21 @@ const Events = () => {
     }
   };
   return (
-    <Box ml="220px" padding="1px 16px">
-      <Box textAlign="center">
-        <Button
-          colorScheme="blue"
-          mt="20px"
-          mb="20px"
-          onClick={() => {
-            handleDisplayForm();
-          }}
-        >
-          Create an event!
-        </Button>
-        {displayForm && <CreateAnEvent />}
-      </Box>
-      <Heading textAlign="center">Events' list</Heading>
+    <div className="events-container">
+      <Button
+        colorScheme="blue"
+        mt="20px"
+        mb="20px"
+        onClick={() => {
+          handleDisplayForm();
+        }}
+      >
+        Create an event!
+      </Button>
+
+      {displayForm && <CreateAnEvent getEvents={getEvents} />}
+
+      <h1 className="sub-headings">Events' list</h1>
       {events.length &&
         events.map((event) => {
           const currentTime = dayjs(event.date).utc();
@@ -120,7 +111,13 @@ const Events = () => {
             (participant) => participant.id === user.id
           );
           return (
-            <Card key={event.id} mt="50px" mr="150px" ml="150px" bg="#E7E1C450">
+            <Card
+              key={event.id}
+              mt="15px"
+              bg="#E7E1C450"
+              fontFamily="Josefin Sans, sans-serif"
+              width="450px"
+            >
               <CardHeader>Event title: {event.title}</CardHeader>
               <CardBody>
                 Date:{sydneyDate} Location: {event.location}
@@ -156,7 +153,7 @@ const Events = () => {
             </Card>
           );
         })}
-    </Box>
+    </div>
   );
 };
 

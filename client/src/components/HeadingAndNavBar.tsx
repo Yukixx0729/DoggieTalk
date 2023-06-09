@@ -2,8 +2,8 @@ import "./HeadingAndNavBar.css";
 import { Link } from "react-router-dom";
 const HeadingAndNavBar = () => {
   return (
-    <div>
-      <ul className="sideBar">
+    <div className="sideBar">
+      <ul>
         <li>
           <Link to="/">Home</Link>
         </li>

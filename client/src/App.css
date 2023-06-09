@@ -31,7 +31,7 @@ img {
   height: 70px;
 }
 
-.titleContainer {
+.navbar {
   background-color: #7a999b;
   padding: 5px;
   display: flex;
@@ -51,4 +51,20 @@ img {
 
 .mainTitle img {
   margin-left: 5px;
+}
+
+.main-content {
+  display: flex;
+}
+
+.events-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1 1 0;
+}
+
+.sub-headings {
+  font-size: 30px;
+  margin-top: 10px;
 }

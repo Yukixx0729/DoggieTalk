@@ -10,18 +10,18 @@ import { Button, Container } from "@chakra-ui/react";
 import MyAccount from "./components/MyAccount";
 import Events from "./components/Events";
 import Chat from "./components/ChatRoom";
-import HeadingAndNavBar from "./components/HeadingAndNavBar";
+import Sidebar from "./components/HeadingAndNavBar";
 import UserInfo from "./components/UserInfo";
-import logo from "../public/image/logo.png";
+import logo from "./image/logo.png";
 
 function App() {
   const { user, logout } = useAuth() as AuthContextType;
 
   return (
     <Container maxW="8xl">
-      {user && (
+      {user ? (
         <div>
-          <div className="titleContainer">
+          <div className="navbar">
             <h1 className="mainTitle">
               <img src={logo} alt="logo pic" id="logo" />
               Doggie Talk
@@ -33,21 +33,25 @@ function App() {
               </Button>
             </h1>
           </div>
-          <HeadingAndNavBar />
+          <div className="main-content">
+            <Sidebar />
+            <Routes>
+              <Route element={<PrivateRoutes redirectTo="/login" />}>
+                <Route path="/" element={<Home />} />
+                <Route path="/chat" element={<Chat />} />
+                <Route path="/events" element={<Events />} />
+                <Route path="/myaccount" element={<MyAccount />} />
+                <Route path="/*" element={<NotFound />} />
+                <Route path="/user/:userId" element={<UserInfo />} />
+              </Route>
+            </Routes>
+          </div>
         </div>
+      ) : (
+        <Routes>
+          <Route path="/login" element={<SignupAndLogin />} />
+        </Routes>
       )}
-
-      <Routes>
-        <Route path="/login" element={<SignupAndLogin />} />
-        <Route element={<PrivateRoutes redirectTo="/login" />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/chat" element={<Chat />} />
-          <Route path="/events" element={<Events />} />
-          <Route path="/myaccount" element={<MyAccount />} />
-          <Route path="/*" element={<NotFound />} />
-          <Route path="/user/:userId" element={<UserInfo />} />
-        </Route>
-      </Routes>
     </Container>
   );
 }

@@ -1,5 +1,4 @@
 import {
-  Box,
   Button,
   Card,
   CardBody,
@@ -79,7 +78,7 @@ const MyEvents = () => {
   };
 
   return (
-    <Box ml="220px" padding="1px 16px" mt="50px">
+    <div className="mysetting-container">
       {(noEvent || !events.length) && (
         <Text>You currently didn't join(create) any events.</Text>
       )}
@@ -89,7 +88,7 @@ const MyEvents = () => {
           .tz("Australia/Sydney")
           .format("YYYY-MM-DD HH:mm");
         return (
-          <Card key={event.id} mt="20px">
+          <Card key={event.id} mt="20px" width="500px">
             <CardHeader>Event title: {event.title}</CardHeader>
             <CardBody>
               Date:{sydneyDate} Location: {event.location}
@@ -108,7 +107,7 @@ const MyEvents = () => {
           </Card>
         );
       })}
-    </Box>
+    </div>
   );
 };
 

@@ -10,6 +10,6 @@
   cursor: pointer;
 }
 
-.mainContainter {
-  margin-left: 220px;
+.chatroom-container {
+  display: flex;
 }

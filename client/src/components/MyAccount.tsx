@@ -1,19 +1,17 @@
-import { Box, Flex, Heading } from "@chakra-ui/react";
 import "./MyAccount.css";
 import { useState } from "react";
 import MyDogs from "./MyDogs";
 import MyEvents from "./MyEvets";
+import { Box } from "@chakra-ui/react";
 
 const MyAccount = () => {
   const [content, setContent] = useState<string>("");
 
   return (
-    <Flex bg="white" flex="1" ml="200px" padding="1px 16px" height="1000px">
-      <Box mt="20px" padding="20px">
+    <div className="settinglist-container">
+      <Box padding="20px">
         <ul id="settingNav">
-          <Heading textAlign="center" size="md" as="i">
-            My account
-          </Heading>
+          <h1>My account</h1>
           <li className="settingNavItem" onClick={() => setContent("dogs")}>
             🐕 My dogs
           </li>
@@ -24,7 +22,7 @@ const MyAccount = () => {
       </Box>
       {content === "dogs" && <MyDogs />}
       {content === "events" && <MyEvents />}
-    </Flex>
+    </div>
   );
 };
 

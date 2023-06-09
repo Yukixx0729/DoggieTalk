@@ -40,14 +40,9 @@ const ChatContent: React.FC<ChatContentProps> = ({
   }, []);
 
   return (
-    <Flex
-      direction="column"
-      justifyContent="center"
-      alignItems="center"
-      height="100vh"
-    >
-      <div className="chatContainer">
-        <ul>
+    <Flex direction="column" alignItems="center" marginTop={10}>
+      <div className="chat-container">
+        <ul style={{ padding: "0 15px" }}>
           {messages.map(({ id, senderId, message, senderName, timestamp }) => {
             const currentTime = dayjs(timestamp).utc();
             const sydneyDate = currentTime

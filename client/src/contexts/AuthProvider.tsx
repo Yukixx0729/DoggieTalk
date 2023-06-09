@@ -120,6 +120,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       };
     }
     setUser(null);
+    navigate("/login");
   };
 
   return (

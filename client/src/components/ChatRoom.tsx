@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuth, AuthContextType } from "../contexts/AuthProvider";
-import { Box, Flex, Heading } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import "./ChatRoom.css";
 import ChatContent from "./ChatContent";
 import { io, Socket } from "socket.io-client";
@@ -64,8 +64,8 @@ const Chat = () => {
   };
 
   return (
-    <div className="mainContainter">
-      <Box mt="20px" padding="20px">
+    <div className="chatroom-container">
+      <Box padding="20px">
         <ul className="chatLists">
           <h1>Chats</h1>
           {chatRooms &&

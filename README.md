@@ -15,6 +15,10 @@ Allow users to add/delete their dogs.
 
 ---
 
+![image info](./images/account.png)
+![image info](./images/event.png)
+![image info](./images/chat.png)
+
 ### **Technologies used**
 
 ---
@@ -58,7 +62,6 @@ npm run dev
 ```createdb doggie_talk
    npx prisma generate
    npx prisma migrate dev --name "init"
-   npx prisma db seed
 ```
 
 - .env

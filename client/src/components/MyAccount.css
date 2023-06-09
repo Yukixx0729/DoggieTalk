@@ -8,3 +8,23 @@
 .settingNavItem:hover {
   cursor: pointer;
 }
+
+.settinglist-container {
+  font-family: "Josefin Sans", sans-serif;
+  justify-content: space-between;
+
+  display: flex;
+  flex: 1 1 0;
+}
+
+.mysetting-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+#settingNav {
+  align-self: flex-start;
+}

@@ -3,9 +3,9 @@
   padding: 0;
   width: 200px;
   background-color: #bcc8b4;
-  position: fixed;
+  position: sticky;
+  top: 0;
   height: 100%;
-  overflow: auto;
 }
 
 .sideBar li {
