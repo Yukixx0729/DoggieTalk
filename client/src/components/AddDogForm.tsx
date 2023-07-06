@@ -58,7 +58,7 @@ const AddDogForm = ({ setDogs, setNoDogs }: MyDogsProps) => {
 
   return (
     <Box width="450px" mt="20px">
-      <form onSubmit={handleSubmit} ref={formRef}>
+      <form onSubmit={handleSubmit} ref={formRef} role="form">
         <Input name="name" placeholder="dog's name" required />
         <Input name="breed" placeholder="dog's breed" required />
         <Input name="age" placeholder="dog's age" required />

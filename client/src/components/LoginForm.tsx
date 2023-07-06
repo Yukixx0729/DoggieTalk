@@ -35,6 +35,7 @@ const LoginForm = () => {
 
         <Input type="submit" value="login" />
       </form>
+      <Text color="blue">Test account: yuki@app.com PW: Ad123456.</Text>
       <Text color="red">{invalidUser}</Text>
     </Box>
   );

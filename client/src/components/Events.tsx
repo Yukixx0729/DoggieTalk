@@ -60,6 +60,7 @@ const Events = () => {
         participants: event.participants,
       }))
     );
+    console.log(events);
   };
 
   useEffect(() => {
@@ -101,7 +102,8 @@ const Events = () => {
       {displayForm && <CreateAnEvent getEvents={getEvents} />}
 
       <h1 className="sub-headings">Events' list</h1>
-      {events.length &&
+
+      {events.length ? (
         events.map((event) => {
           const currentTime = dayjs(event.date).utc();
           const sydneyDate = currentTime
@@ -152,7 +154,10 @@ const Events = () => {
               </CardFooter>
             </Card>
           );
-        })}
+        })
+      ) : (
+        <p>No events found yet.</p>
+      )}
     </div>
   );
 };

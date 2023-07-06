@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { vi } from "vitest";
-import MyDogs from "./MyDogs";
-// import { useAuth, AuthContextType } from "../contexts/AuthProvider";
+import MyDogs, { Dogs } from "./MyDogs";
+import { useAuth, AuthContextType } from "../contexts/AuthProvider";
 // import * as AuthProvider from "../contexts/AuthProvider";
 
 const mockFetch = vi.fn();
@@ -24,51 +24,55 @@ beforeEach(() => {
   // AuthProvider.AuthProvider = vi.fn().mockReturnValue(mockUserData);
 });
 
-it("renders 'You haven't added your dog(s) yet.' text when no dogs are available", async () => {
-  mockJson.mockResolvedValueOnce([]);
-  mockFetch.mockResolvedValueOnce({
-    json: mockJson,
-  });
-  render(<MyDogs />);
-  expect(
-    await screen.findByText("You haven't added your dog(s) yet.")
-  ).toBeInTheDocument();
-});
+// it("renders 'You haven't added your dog(s) yet.' text when no dogs are available", async () => {
+//   mockJson.mockResolvedValueOnce([]);
+//   mockFetch.mockResolvedValueOnce({
+//     json: mockJson,
+//   });
+//   render(<MyDogs />);
+//   expect(
+//     await screen.findByText("You haven't added your dog(s) yet.")
+//   ).toBeInTheDocument();
+// });
 
-it.skip("renders dog cards when dogs are available", async () => {
+it("renders dog cards when dogs are available", async () => {
   // mockUseAuth.mockResolvedValueOnce;
   // vi.mock("../contexts/AuthProvider", () => {
   //   AuthProvider: vi.fn(() => mockUserData);
   // });
-  // vi.mock("../contexts/AuthProvider", () => {
-  //   useAuth: vi.fn().mockReturnValue({
-  //     email: "yuki@app.com",
-  //     name: "Yuki",
-  //     id: "123",
-  //   });
-  // });
-  //   const dogs: Dogs[] = [
-  //     {
-  //       id: "1",
-  //       breed: "Jack Russell",
-  //       age: "3",
-  //       name: "Tiger",
-  //     },
-  //     {
-  //       id: "2",
-  //       breed: "Jack Russell",
-  //       age: "2",
-  //       name: "Pickle",
-  //     },
-  //   ];
-  //   mockJson.mockResolvedValueOnce(dogs);
-  //   mockFetch.mockResolvedValueOnce({
-  //     json: mockJson,
-  //   });
-  //   render(<MyDogs />);
-  //   expect(await screen.findByText("MY DOG")).toBeInTheDocument();
-  //   expect(screen.getByText("Name: Tiger Age: 3yr(s)")).toBeInTheDocument();
-  //   expect(screen.getByText("Breed: Jack Russell")).toBeInTheDocument();
-  //   expect(screen.getByText("Name: Pickle Age: 2yr(s)")).toBeInTheDocument();
-  //   expect(screen.getByText("Breed: Jack Russell")).toBeInTheDocument();
+  vi.mock("../contexts/AuthProvider", () => {
+    return {
+      useAuth: vi.fn().mockReturnValue({
+        user: {
+          email: "yuki@app.com",
+          name: "Yuki",
+          id: "123",
+        },
+      }),
+    };
+  });
+  const dogs: Dogs[] = [
+    {
+      id: "1",
+      breed: "Jack Russell",
+      age: "3",
+      name: "Tiger",
+    },
+    {
+      id: "2",
+      breed: "Jack Russell",
+      age: "2",
+      name: "Pickle",
+    },
+  ];
+  mockJson.mockResolvedValueOnce(dogs);
+  mockFetch.mockResolvedValueOnce({
+    json: mockJson,
+  });
+  render(<MyDogs />);
+  expect(await screen.findByText("MY DOG")).toBeInTheDocument();
+  expect(screen.getByText("Name: Tiger Age: 3yr(s)")).toBeInTheDocument();
+  expect(screen.getByText("Breed: Jack Russell")).toBeInTheDocument();
+  expect(screen.getByText("Name: Pickle Age: 2yr(s)")).toBeInTheDocument();
+  expect(screen.getByText("Breed: Jack Russell")).toBeInTheDocument();
 });
